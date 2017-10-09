@@ -12,6 +12,7 @@
 			<% unless row[1].nil? %>
 				<meta property="og:title" content="<%= Sanitize.clean(row[1]) %> - maidchan">
 				<meta property="og:description" content="<%= Sanitize.clean(row[2]) %>">
+				<meta property="og:image" content="/static/small.png" />
 			<% end %>
 			<div id="reply">
 				<% unless row[4].nil? %>
