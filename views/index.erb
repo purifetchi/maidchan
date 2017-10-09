@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	</head>
 	<body>
-		<div id="logocontainer"><img src="static/maidchan.png" alt="maidchan"></div>
+		<div id="logocontainer"><img id="logo" src="static/maidchan.png" alt="maidchan"></div>
 		<% db.execute "SELECT * FROM posts WHERE parent IS NULL ORDER BY date_of_bump DESC" do |row| %>
 			<div id="reply"><a href="topic/<%= row[0] %>"><%= row[1] %></a></div>
 		<% end %>

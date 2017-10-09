@@ -2,6 +2,25 @@
 	font-family: 'Gravity';
 }
 
+@media only screen and (max-width: 479px) {
+	#logo {
+		max-width: 250px;
+		width: auto;
+	}	
+
+	form {
+		max-width: 250px;
+		width: auto;	
+	}
+
+	textarea {
+		max-width: 220px;
+		max-height: 100px;
+		width: auto;
+		height: auto;
+	}
+}
+
 body {
 	background-color: #EEF2FF;
 	background-image: url('maid.png');
