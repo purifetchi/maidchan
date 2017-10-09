@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>maidchan</title>
+		<link rel="stylesheet" type="text/css" href="/static/maidchan.css">
+		<link rel="icon" href="/static/favicon.ico">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	</head>
+	<body>
+		<div id="logocontainer"><img src="/static/maidchan.png" alt="maidchan"></div>
+		<% db.execute("SELECT * FROM posts WHERE post_id=? OR parent=?", id, id).each do |row| %>
+			<% unless row[1].nil? %>
+				<meta property="og:title" content="<%= Sanitize.clean(row[1]) %> - maidchan">
+				<meta property="og:description" content="<%= Sanitize.clean(row[2]) %>">
+			<% end %>
+			<div id="reply">
+				<% unless row[4].nil? %>
+					<a href="/images/<%= row[4] %>"><img src="/images/<%= row[4] %>" alt="404" onerror="this.onerror=null; this.src='/static/broken.png';" class="thumb"></a>
+				<% end %>
+				<span class="postcontainer">
+				<span class="postinfo"><%= unless row[1].nil? then '<span style="color: #130be2;">' + Sanitize.clean(row[1]) + '</span>,' end %> <span style="color: #117743;"><%= Sanitize.clean(row[6]) %></span>, <%= row[8] %></span><br>
+				<% row[2].split("\n").each do |line| %>
+					<% line = Sanitize.clean(line) %>
+					<% splitted = line.split("&gt;", 2) %>
+					<% unless splitted[1].nil? %>
+						<span class="part"><%= splitted[0] + '<span class="greentext">&gt;' + splitted[1] + '</span>' %></span>
+					<% else %>
+						<span class="part"><%= splitted[0] %></span>
+					<% end %><br>
+				<% end %></span><br>
+			</div>
+		<% end %>
+		<form method="post" action="/reply/<%= id %>" enctype="multipart/form-data">
+			<input type="text" name="name" placeholder="Name">
+			<input type="file" name="file">
+			<textarea name="comment" id="reply_comment" placeholder="Comment here"></textarea>
+			<input type="submit" name="submit" value="Reply">
+		</form>
+	</body>
+</html>

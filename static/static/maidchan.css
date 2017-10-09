@@ -1,0 +1,80 @@
+* {
+	font-family: 'Gravity';
+}
+
+body {
+	background-color: #EEF2FF;
+	background-image: url('maid.png');
+	background-position:top right;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+#reply {
+	background-color: rgba(238, 242, 255, 0.34);
+	overflow: hidden;
+	padding: 10px;
+}
+
+#reply:nth-child(2n+2) {
+	background-color: rgba(214, 218, 240, 0.34);
+}
+
+#logocontainer {
+	text-align: center;
+}
+
+form {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #d6daf0;
+	width: 400px;
+}
+
+textarea {
+	resize: none;
+	width: 320px;
+	height: 160px;
+}
+
+.meta {
+	font-size: 10px;
+}
+
+.thumb {
+	float: left;
+	vertical-align: top;
+	max-width:330px;
+	max-height:195px;
+	width: auto;
+	height: auto;
+	margin-right: 5px;
+}
+
+.postcontainer {
+	text-align: left;	
+	margin-left: 5px;
+}
+
+.postinfo {
+	font-size: 13px;
+}
+
+.part {
+	margin-left: 5px;
+}
+
+.greentext {
+	color: #117743;
+}
+
+@font-face {
+        font-family: 'Gravity';
+        src: url('Gravity-Regular.eot');
+        src: url('Gravity-Regular.eot?#iefix') format('embedded-opentype'),
+                url('Gravity-Regular.woff') format('woff'),
+                url('Gravity-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+}
