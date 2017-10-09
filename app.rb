@@ -41,7 +41,7 @@ end
 # POST requests, A.K.A. functional routes
 
 post '/post' do
-        unless params[:name].empty?
+        unless params[:name].empty? or params[:name].length > 40
                 splitted = params[:name].split('#')
 
                 unless splitted[1].nil?
@@ -65,7 +65,7 @@ end
 post '/reply/:id' do |id|
 	db.execute("UPDATE posts SET date_of_bump=CURRENT_TIMESTAMP WHERE post_id=?", id.to_i)
 
-	unless params[:name].empty?
+	unless params[:name].empty? or params[:name].length > 40
 		splitted = params[:name].split('#')
 							
 		unless splitted[1].nil?
