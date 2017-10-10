@@ -19,7 +19,7 @@
 					<a href="/images/<%= row[4] %>"><img src="/images/<%= row[4] %>" alt="404" onerror="this.onerror=null; this.src='/static/broken.png';" class="thumb"></a>
 				<% end %>
 				<span class="postcontainer">
-				<span class="postinfo"><%= unless row[1].nil? then '<span style="color: #130be2;">' + Sanitize.clean(row[1]) + '</span>,' end %> <span style="color: #117743;"><%= Sanitize.clean(row[6]) %></span>, <%= row[8] %></span><br>
+				<span class="postinfo"><%= unless row[1].nil? then '<span style="color: #130be2;">' + Sanitize.clean(row[1]) + '</span>,' end %> <span style="color: #117743;"><%= Sanitize.clean(row[6]) %></span>, <%= row[8] %> <%= if is_moderator?(session) then "(#{row[5]})" end %></span><br>
 				<% row[2].split("\n").each do |line| %>
 					<% line = Sanitize.clean(line) %>
 					<% splitted = line.split("&gt;", 2) %>

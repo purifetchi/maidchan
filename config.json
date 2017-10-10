@@ -1,0 +1,9 @@
+{
+	"janitors": {
+		"test": {
+			"user": "test",
+			"pass": "test",
+			"rank": "Admin"
+		}
+	}
+}
