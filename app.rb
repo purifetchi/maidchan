@@ -42,6 +42,25 @@ def store!(params) #Stores the file and returns the filename
 	return filename
 end
 
+def delete!(id, db)
+	files = []
+
+	db.execute("SELECT * FROM posts WHERE post_id=? OR parent=?", id, id).each do |row| #Gather image data for deletion.
+		unless row[4].nil?
+			files.push(row[4])
+		end
+	end
+
+	db.execute("DELETE FROM posts WHERE post_id=? OR parent=?", id, id)
+	db.execute("VACUUM")
+
+	if files.length > 0
+		files.each do |file|
+			File.delete("./static/images/#{file}")
+		end
+	end
+end
+
 def is_moderator?(session)
 	return !session[:moderator].nil?
 end
@@ -49,12 +68,14 @@ end
 # GET requests, A.K.A. regular routes
 
 get '/' do
-	erb :index, :locals => {:db => db}	
+	erb :index, :locals => {:db => db, :session => session}	
 end
 
 get '/topic/:id' do |id|
 	erb :topic, :locals => {:db => db, :id => id.to_i, :session => session}
 end
+
+# GET moderation actions
 
 get '/mod' do
 	erb :login
@@ -63,6 +84,15 @@ end
 get '/logout' do
 	session[:moderator] = nil
 	redirect '/mod', 303
+end
+
+get '/delete/:id' do |id|
+	if is_moderator?(session)
+		delete! id.to_i, db
+		return[200, "Success, probably"]	
+	else
+		return[403, "You're not a moderator."]
+	end
 end
 
 # POST requests, A.K.A. functional routes

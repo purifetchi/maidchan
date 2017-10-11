@@ -3,13 +3,19 @@
 	<head>
 		<title>maidchan</title>
 		<link rel="stylesheet" type="text/css" href="static/maidchan.css">
+		<link rel="stylesheet" type="text/css" href="static/css/font-awesome.min.css">
 		<link rel="icon" href="static/favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	</head>
 	<body>
 		<div id="logocontainer"><img id="logo" src="static/maidchan.png" alt="maidchan"></div>
 		<% db.execute "SELECT * FROM posts WHERE parent IS NULL ORDER BY date_of_bump DESC" do |row| %>
-			<div id="reply"><a href="topic/<%= row[0] %>"><%= row[1] %></a></div>
+			<div id="reply">
+				<a href="topic/<%= row[0] %>"><%= row[1] %></a>
+				<% if is_moderator?(session) %>
+					 <a href="/delete/<%= row[0] %>" target="_blank"><i class="fa fa-trash" aria-hidden="true"></i></a>
+				<% end %>
+			</div>
 		<% end %>
 		<form method="POST" action="/post" enctype="multipart/form-data">
 			<input type="text" name="name" placeholder="Name">

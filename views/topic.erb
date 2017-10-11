@@ -3,6 +3,7 @@
 	<head>
 		<title>maidchan</title>
 		<link rel="stylesheet" type="text/css" href="/static/maidchan.css">
+		<link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css">
 		<link rel="icon" href="/static/favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	</head>
@@ -19,7 +20,17 @@
 					<a href="/images/<%= row[4] %>"><img src="/images/<%= row[4] %>" alt="404" onerror="this.onerror=null; this.src='/static/broken.png';" class="thumb"></a>
 				<% end %>
 				<span class="postcontainer">
-				<span class="postinfo"><%= unless row[1].nil? then '<span style="color: #130be2;">' + Sanitize.clean(row[1]) + '</span>,' end %> <span style="color: #117743;"><%= Sanitize.clean(row[6]) %></span>, <%= row[8] %> <%= if is_moderator?(session) then "(#{row[5]})" end %></span><br>
+
+				<span class="postinfo">
+					<%= unless row[1].nil? then '<span style="color: #130be2;">' + Sanitize.clean(row[1]) + '</span>,' end %> 
+					<span style="color: #117743;"><%= Sanitize.clean(row[6]) %></span>, 
+					<%= row[8] %> 
+					<% if is_moderator?(session) %>
+						(<%= row[5] %>)
+						<a href="/delete/<%= row[0] %>" target="_blank"><i class="fa fa-trash" aria-hidden="true"></i></a>
+					<% end %>					
+				</span><br>
+
 				<% row[2].split("\n").each do |line| %>
 					<% line = Sanitize.clean(line) %>
 					<% splitted = line.split("&gt;", 2) %>
