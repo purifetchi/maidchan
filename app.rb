@@ -80,7 +80,7 @@ post '/post' do
                 name = "Anonymous"
         end
 
-	if params[:comment].length > 2000 or params[:title].length > 150
+	if params[:comment].length > 2000 or params[:title].length > 100
 		return[431, "Post or title too long"]
 	end
 
