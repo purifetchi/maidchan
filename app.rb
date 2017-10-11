@@ -80,6 +80,10 @@ post '/post' do
                 name = "Anonymous"
         end
 
+	if params[:comment].length > 2000 or params[:title].length > 150
+		return[431, "Post or title too long"]
+	end
+
 	if params[:file] and types.include?(params[:file][:type]) and params[:file][:tempfile].size < 3145728
 		filename = store!(params)
 		db.execute("INSERT INTO posts (title, comment, author, image, ip) VALUES (?, ?, ?, ?, ?)", params[:title], params[:comment], name, filename, get_ip(request, env))
@@ -102,6 +106,10 @@ post '/reply/:id' do |id|
 		end
 	else
 		name = "Anonymous"
+	end
+
+	if params[:comment].length > 2000
+		return[431, "Post too long, over 2000 characters."]
 	end
 
 	if params[:file] and types.include?(params[:file][:type]) and params[:file][:tempfile].size < 3145728
