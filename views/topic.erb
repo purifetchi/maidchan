@@ -17,7 +17,13 @@
 			<% end %>
 			<div id="reply">
 				<% unless row[4].nil? %>
-					<a href="/images/<%= row[4] %>"><img src="/images/<%= row[4] %>" alt="404" onerror="this.onerror=null; this.src='/static/broken.png';" class="thumb"></a>
+					<% unless row[4].end_with?(".webm") %>
+						<a href="/images/<%= row[4] %>"><img src="/images/<%= row[4] %>" alt="404" onerror="this.onerror=null; this.src='/static/broken.png';" class="thumb"></a>
+					<% else %>
+						<video class="thumb" controls>
+							<source src="/images/<%= row[4] %>" type="video/webm">
+						</video>
+					<% end %>
 				<% end %>
 				<span class="postcontainer">
 

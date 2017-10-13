@@ -17,7 +17,7 @@ set :port, 80
 set :bind, '0.0.0.0'
 
 # Helper functions
-types = ['image/png', 'image/jpeg', 'image/gif']
+types = ['image/png', 'image/jpeg', 'image/gif', 'video/webm']
 
 def get_ip(req, env) #Gets the ip of the user
 	ip = req.ip
@@ -34,7 +34,7 @@ end
 def store!(params) #Stores the file and returns the filename
 	digest = Digest::MD5.new
 	digest << params[:file][:filename]
-	filename = digest.hexdigest + "." + params[:file][:type].split("image/")[1]
+	filename = digest.hexdigest + "." + params[:file][:type].split("/")[1]
 
 	File.open("./static/images/#{filename}", "wb") do |file|
 		file.write(params[:file][:tempfile].read)
@@ -63,6 +63,10 @@ end
 
 def is_moderator?(session)
 	return !session[:moderator].nil?
+end
+
+def is_banned?(ip)
+
 end
 
 # GET requests, A.K.A. regular routes
