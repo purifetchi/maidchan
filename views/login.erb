@@ -2,16 +2,19 @@
 <html>
 	<head>
 		<title>maidchan</title>
-		<link rel="stylesheet" type="text/css" href="/static/maidchan.css">
+		<link rel="stylesheet" type="text/css" id="def_style" href="/static/maidchan.css">
 		<link rel="icon" href="/static/favicon.ico">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="/static/js/maidchan-app.js"></script>
 	</head>
 	<body>
-		<div id="logocontainer"><a href="/"><img id="logo" src="/static/maidchan.png" alt="maidchan"></a></div>
-                <form method="post" action="/mod">
-                        <input type="text" name="name" placeholder="Name"><br>
+		<div id="logocontainer">
+			<a href="/"><img id="logo" src="/static/maidchan.png" alt="maidchan"></a>
+		</div>
+		<form method="post" action="/mod">
+			<input type="text" name="name" placeholder="Name"><br>
 			<input type="password" name="pass" placeholder="Password">
-                        <input type="submit" name="submit" value="Reply">
-        	</form>
+			<input type="submit" name="submit" value="Reply">
+		</form>
 	</body>
 </html>

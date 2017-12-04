@@ -16,3 +16,12 @@ db.execute <<-SQL
 		date_of_bump DATETIME DEFAULT CURRENT_TIMESTAMP
 	);
 SQL
+
+db.execute <<-SQL
+	CREATE TABLE bans (
+                ip TEXT PRIMARY KEY,
+                reason TEXT NOT NULL,
+                unban_date DATETIME NOT NULL,
+                banned_post TEXT
+        );
+SQL

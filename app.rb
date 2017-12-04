@@ -36,7 +36,7 @@ def store!(params) #Stores the file and returns the filename
 	digest << params[:file][:filename]
 	filename = digest.hexdigest + "." + params[:file][:type].split("/")[1]
 
-	File.open("./static/images/#{filename}", "wb") do |file|
+	File.open("./static/uploads/#{filename}", "wb") do |file|
 		file.write(params[:file][:tempfile].read)
 	end
 	return filename
@@ -56,17 +56,33 @@ def delete!(id, db)
 
 	if files.length > 0
 		files.each do |file|
-			File.delete("./static/images/#{file}")
+			File.delete("./static/uploads/#{file}")
 		end
 	end
+end
+
+def ban!(ip, reason, date, db)
+	old_date = date.split('/') #Shady date formatting code
+	formatted_date = old_date[2] + "-" + old_date[0] + "-" + old_date[1] + " 00:00:00"
+
+	db.execute("INSERT INTO bans (ip, reason, unban_date) VALUES (?, ?, ?)", ip, reason, formatted_date)	
 end
 
 def is_moderator?(session)
 	return !session[:moderator].nil?
 end
 
-def is_banned?(ip)
+def is_banned?(ip, db)
+	#puts "the ip is: " + ip
+	puts "in is_banned"
+	db.execute("SELECT * FROM bans WHERE ip=? AND unban_date > CURRENT_TIMESTAMP", ip).each do |row| #Check if there is a ban that is still in progress (the date of unban is bigger than the current timestamp)
+		puts "found a valid candidate"
+		return true # Return yes on any row that is returned
+		puts "something went wrong" 
+	end
 
+	puts "nothing was found"
+	return false # Return no if there were no bans found
 end
 
 # GET requests, A.K.A. regular routes
@@ -99,9 +115,21 @@ get '/delete/:id' do |id|
 	end
 end
 
+get '/ban/:ip' do |ip|
+	if is_moderator?(session)
+		erb :ban, :locals => {:ip => ip}
+	else
+		return[403, "You're not a moderator."]
+	end
+end
+
 # POST requests, A.K.A. functional routes
 
 post '/post' do
+	if is_banned?(get_ip(request, env), db)
+		return [403, "You're banned."]
+	end
+
         unless params[:name].empty? or params[:name].length > 40
                 splitted = params[:name].split('#')
 
@@ -128,6 +156,10 @@ post '/post' do
 end
 
 post '/reply/:id' do |id|
+	if is_banned?(get_ip(request, env), db)
+		return [403, "You're banned."]
+	end
+
 	db.execute("UPDATE posts SET date_of_bump=CURRENT_TIMESTAMP WHERE post_id=?", id.to_i)
 
 	unless params[:name].empty? or params[:name].length > 40
@@ -162,4 +194,13 @@ post '/mod' do
 	else
 		return[401, "Invalid username or password."]
 	end
+end
+
+post '/ban/:ip' do |ip|
+	if is_moderator?(session)
+		ban!(ip, params[:reason], params[:date], db)
+		return[200, "OK"]
+	else
+		return[403, "You're not a moderator."]
+	end	
 end

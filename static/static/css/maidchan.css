@@ -6,11 +6,11 @@
 	#logo {
 		max-width: 250px;
 		width: auto;
-	}	
+	}
 
 	form {
 		max-width: 250px;
-		width: auto;	
+		width: auto;
 	}
 
 	textarea {
@@ -23,10 +23,20 @@
 
 body {
 	background-color: #EEF2FF;
-	background-image: url('maid.png');
-	background-position:top right;
+}
+
+body::after {
+	content: "";
+	background-image: url('/static/img/maid.png');
 	background-repeat: no-repeat;
-	background-attachment: fixed;
+	background-position: right;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
 
 #reply {
@@ -72,7 +82,7 @@ textarea {
 }
 
 .postcontainer {
-	text-align: left;	
+	text-align: left;
 	margin-left: 5px;
 }
 
@@ -90,10 +100,10 @@ textarea {
 
 @font-face {
         font-family: 'Gravity';
-        src: url('Gravity-Regular.eot');
-        src: url('Gravity-Regular.eot?#iefix') format('embedded-opentype'),
-                url('Gravity-Regular.woff') format('woff'),
-                url('Gravity-Regular.ttf') format('truetype');
+        src: url('/static/fonts/Gravity-Regular.eot');
+        src: url('/static/fonts/Gravity-Regular.eot?#iefix') format('embedded-opentype'),
+                url('/static/fonts/Gravity-Regular.woff') format('woff'),
+                url('/static/fonts/Gravity-Regular.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
 }
